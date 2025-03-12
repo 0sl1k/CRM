@@ -64,9 +64,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->authorize
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
-                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/user/**","/api/order/**").authenticated()
                         .requestMatchers("/autenticate").authenticated()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**","/api/moderator/**").hasRole("ADMIN")
+                        .requestMatchers("/api/moderator/**").hasRole("MODERATOR")
                         .anyRequest().authenticated()
                 );
         http.oauth2Login(oauth2-> oauth2

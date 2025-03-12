@@ -53,6 +53,10 @@ public class UserDetailsImpl implements UserDetails {
         return email;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String getPassword() {
         return password;
