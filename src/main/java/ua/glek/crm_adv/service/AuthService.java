@@ -39,10 +39,11 @@ public class AuthService {
     @Autowired
     private RoleRepo roleRepo;
 
-    public void login(LogInDto sign, HttpServletResponse response) {
+    public ResponseEntity<?> login(LogInDto sign, HttpServletResponse response) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(sign.getUsername(),sign.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Cookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
@@ -51,21 +52,21 @@ public class AuthService {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         response.addCookie(jwtCookie);
-        ResponseEntity.ok("Login is successful");
+         return new ResponseEntity<>("logged in successfully", HttpStatus.OK);
     }
 
-    public void registerUser(SignUpDto sign) {
+    public ResponseEntity<?> registerUser(SignUpDto sign) {
         User user = new User();
         user.setUsername(sign.getUsername());
         if (userRepo.existsUserByEmail(sign.getEmail())){
-            new ResponseEntity<>("Error:Account with this email already exists", HttpStatus.BAD_REQUEST);
-            return;
+
+            return new ResponseEntity<>("Error:Account with this email already exists", HttpStatus.BAD_REQUEST);
         }else {
             user.setEmail(sign.getEmail());
         }
         if (sign.getPassword().length()<8){
-            new ResponseEntity<>("Error: This password short", HttpStatus.BAD_REQUEST);
-            return;
+
+            return new ResponseEntity<>("Error: This password short", HttpStatus.BAD_REQUEST);
         }else {
             user.setPassword(bCryptPasswordEncoder.encode(sign.getPassword()));
         }
@@ -85,10 +86,22 @@ public class AuthService {
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
-                        Role modRole = roleRepo.findByName(ERole.ROLE_MODERATOR)
+                    case "moderator":
+                        Role moderatorRole = roleRepo.findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(moderatorRole);
+
+                        break;
+                    case "manager":
+                        Role managerRole = roleRepo.findByName(ERole.ROLE_MANAGER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(managerRole);
+
+                        break;
+                    case "operator":
+                        Role operatorRole = roleRepo.findByName(ERole.ROLE_OPERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(operatorRole);
 
                         break;
                     default:
@@ -100,7 +113,7 @@ public class AuthService {
         }
         user.setRoles(roles);
         userRepo.save(user);
-        new ResponseEntity<>("register sucesful", HttpStatus.OK);
+        return new ResponseEntity<>("Register successful", HttpStatus.OK);
     }
 
 }

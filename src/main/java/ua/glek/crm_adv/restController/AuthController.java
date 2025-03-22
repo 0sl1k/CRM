@@ -3,6 +3,7 @@ package ua.glek.crm_adv.restController;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import ua.glek.crm_adv.service.AuthService;
 import ua.glek.crm_adv.service.UserService;
 
 
-
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -37,21 +38,22 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LogInDto sign, HttpServletResponse response){
-        authService.login(sign, response);
-        return ResponseEntity.ok("Login is successful");
+        log.info("User logged in");
+        return authService.login(sign, response);
 
 
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registration(@RequestBody SignUpDto sign){
-        authService.registerUser(sign);
-        return new ResponseEntity<>("Register successful", HttpStatus.OK);
+        log.info("User registered");
+        return authService.registerUser(sign);
     }
     @PostMapping("/signOut")
     public ResponseEntity<?> logoutUser(HttpServletResponse response) {
         Cookie cookie = jwtUtils.getCleanJwtCookie();
         response.addCookie(cookie);
+        log.info("User logged out");
         return ResponseEntity.ok("Logout successful");
     }
 
