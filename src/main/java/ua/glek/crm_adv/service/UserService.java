@@ -43,6 +43,10 @@ public class UserService  implements UserDetailsService {
 
     }
 
+    public User findById(Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
     public void assignRoleToUser(Long userid, Long roleid) {
         User user = userRepo.findById(userid)
                 .orElseThrow(() -> new UsernameNotFoundException(userid.toString()));

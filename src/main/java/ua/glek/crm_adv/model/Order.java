@@ -21,9 +21,14 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private User customer;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EStatus status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "order_products",
@@ -31,6 +36,7 @@ public class Order {
     inverseJoinColumns = @JoinColumn(name = "product_id"))
     @JsonIgnoreProperties({"orders"})
     private List<Product> products = new ArrayList<>();
+
     @CreationTimestamp
     private LocalDateTime orderDate;
 

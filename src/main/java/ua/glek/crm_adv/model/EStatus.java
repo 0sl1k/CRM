@@ -1,0 +1,19 @@
+package ua.glek.crm_adv.model;
+
+public enum EStatus {
+    NEW,
+    PROCESSING,
+    AWAITING_PAYMENT,
+    PAID,
+    BEING_PACKAGED,
+    READY_FOR_SHIPPING,
+    SHIPPED,
+    IN_TRANSIT,
+    DELIVERED,
+    COMPLETED,
+    CANCELLED,
+    RETURNED,
+    AWAITING_CONFIRMATION,
+    DELIVERY_FAILED,
+    PARTIALLY_FULFILLED,
+}
