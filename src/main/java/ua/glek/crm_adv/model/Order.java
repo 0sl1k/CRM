@@ -30,13 +30,10 @@ public class Order {
     @Column(nullable = false)
     private EStatus status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "order_products",
-    joinColumns = @JoinColumn(name = "order_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
-    @JsonIgnoreProperties({"orders"})
-    private List<Product> products = new ArrayList<>();
+    private Double totalPrice;
 
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<OrderProducts> productsList = new ArrayList<>();
     @CreationTimestamp
     private LocalDateTime orderDate;
 

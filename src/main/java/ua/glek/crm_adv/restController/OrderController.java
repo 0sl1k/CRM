@@ -13,19 +13,19 @@ import ua.glek.crm_adv.service.OrderService;
 @RestController
 @RequestMapping("api/order")
 public class OrderController {
-    private static final String HASH_NAME = "order";
+
 
     @Autowired
     private OrderService orderService;
 
 
-    @CacheEvict(value = "order",key = "#order.id")
+
     @PostMapping("/create")
     public Order create(@RequestBody Order order) {
        return orderService.createOrder(order);
     }
 
-    @CachePut(value = HASH_NAME ,key = "#id")
+
     @PutMapping("/{id}/status")
     public ResponseEntity<String> updateOrderStatus(@PathVariable("id") Long id,
                                                @RequestParam EStatus status) {

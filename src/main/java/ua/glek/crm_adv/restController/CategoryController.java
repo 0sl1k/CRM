@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ua.glek.crm_adv.model.Category;
 import ua.glek.crm_adv.repository.CategoryRepo;
+import ua.glek.crm_adv.service.CategoryService;
 
 import java.time.Duration;
 import java.util.List;
@@ -24,34 +25,30 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
 
-   private static RedisTemplate<String,Category> redisTemplate;
-   private static final String HASH_NAME = "category";
+
+
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryService categoryService;
 
 
     @GetMapping("/all")
-    @Cacheable(value = HASH_NAME)
     public List<Category> getAll() {
-        return categoryRepo.findAll();
+        return categoryService.getAll();
     }
-    @CacheEvict(value = HASH_NAME,key = "#category.id",allEntries = true)
     @PostMapping("/add")
     public Category add(@RequestBody Category category) {
         log.info("add category: {}", category);
-        return categoryRepo.save(category);
+        return categoryService.addCategory(category);
     }
-    @CacheEvict(value = HASH_NAME,allEntries = true)
     @PostMapping("/addMore")
     public List<Category> addMore(@RequestBody List<Category> category) {
         log.info("add more category: {}", category);
-        return categoryRepo.saveAll(category);
+        return categoryService.addCategories(category);
     }
-    @Cacheable(value = HASH_NAME,key = "#id")
     @GetMapping("/{id}")
     public Object get(@PathVariable Long id) {
-        return categoryRepo.findById(id).get();
+        return categoryService.getCategoryById(id).get();
 
 
     }

@@ -3,7 +3,6 @@ package ua.glek.crm_adv.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.glek.crm_adv.model.Company;
@@ -36,8 +35,8 @@ public class CompanyService {
     public List<Company> getAllCompany(){
         return companyRepo.findAll();
     }
-
-    public String addManagerToCompany(Long companyId, Long userId) {
+    @CacheEvict(value = HASH_NAME,allEntries = true)
+    public String promoteManagerToCompany(Long companyId, Long userId) {
         Optional<Company> savedCompany = Optional.ofNullable(companyRepo.findById(companyId).orElse(null));
         Optional<User> user = Optional.ofNullable(userService.findById(userId));
         if (savedCompany.isPresent() && user.isPresent()) {

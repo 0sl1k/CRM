@@ -1,17 +1,16 @@
 package ua.glek.crm_adv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.glek.crm_adv.model.EStatus;
-import ua.glek.crm_adv.model.Order;
-import ua.glek.crm_adv.model.Product;
-import ua.glek.crm_adv.model.User;
+import ua.glek.crm_adv.model.*;
 import ua.glek.crm_adv.repository.OrderRepo;
 import ua.glek.crm_adv.repository.ProductRepo;
 import ua.glek.crm_adv.repository.UserRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,24 +26,37 @@ public class OrderService {
 
     private EStatus status;
 
+    private final String HASH_NAME = "order";
+
     @Transactional
+    @CacheEvict(value = HASH_NAME,key = "order.id",allEntries = true)
     public Order createOrder(Order order) {
-       String username =  SecurityContextHolder.getContext().getAuthentication().getName();
-       User customer = userRepo.findByUsername(username)
-               .orElseThrow(()->new RuntimeException("User not found"));
+       String username =SecurityContextHolder.getContext().getAuthentication().getName();
+       User customer = userRepo.findByUsername(username).orElse(null);
+
        order.setCustomer(customer);
-        List<Product> products = order.getProducts().stream()
-                .map(product ->productRepo.findById(product.getId())
-                        .orElseThrow(()-> new RuntimeException("Product Not Found"+product.getId())))
-                .collect(Collectors.toList());
+       order.setStatus(EStatus.NEW);
 
-        order.setProducts(products);
-        order.setStatus(status.NEW);
+       List<OrderProducts> products = new ArrayList<>();
+
+       for (OrderProducts items : order.getProductsList()){
+           Product product = productRepo.findById(items.getProduct().getId()).orElse(null);
+           items.setProduct(product);
+           items.setOrder(order);
+           products.add(items);
+       }
+       order.setProductsList(products);
+       double totalPrice = products.stream()
+               .mapToDouble(OrderProducts::getTotalPrice)
+               .sum();
+
+       order.setTotalPrice(totalPrice);
        return orderRepo.save(order);
-
-
     }
+
+
     @Transactional
+    @CacheEvict(value = HASH_NAME,allEntries = true)
     public String updateOrderStatus(Long orderId, EStatus status) {
         Optional<Order> orderOptional = orderRepo.findById(orderId);
         if (orderOptional.isPresent()) {
