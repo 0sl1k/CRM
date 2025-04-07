@@ -19,6 +19,7 @@
 - Spring Boot(Web,Security,Data,Cache)
 - Redis
 - Oauth2
+- PostgreSQL
 
 ## 🛠️ Roadmap
 - Add Elastic Search
