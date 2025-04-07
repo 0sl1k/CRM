@@ -26,12 +26,12 @@
 
 ## ⚙️ Getting Started
 
-#1. Clone the repository:
+-1. Clone the repository:
  - git clone https://github.com/0sl1k/CRM.git
  - cd CRM
-#2. Build the project:
+-2. Build the project:
   -./gradlew build
-#3. Run the app (if a main method is defined):
+-3. Run the app (if a main method is defined):
   -./gradlew run
 
 
