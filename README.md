@@ -1,19 +1,28 @@
 # CRM System
 
-📌 A simple Customer Relationship Management (CRM) system built with Java.
+📌 A simple Customer Relationship Management (CRM).
 
 ## 📦 Features
 
 - Manage clients
 - Track orders
-- Data storage (to be implemented via a database)
+- Data storage (implemented via a database)
 - Modular and extendable architecture
+- Authorization via Oauth2
+- JWT authorization
+- Redis caching
 
 ## 🚀 Technologies Used
 
 - Java 17+
 - Gradle (Kotlin DSL)
-- *(Planned: Spring Boot, JPA, H2/MySQL, etc.)*
+- Spring Boot(Web,Security,Data,Cache)
+- Redis
+- Oauth2
+
+## 🛠️ Roadmap
+  Add Elastic Search
+  Add analytical A.I.
 
 ## ⚙️ Getting Started
 
@@ -26,6 +35,6 @@
   ./gradlew run
 
 
-Author:
-0sl1k
-GitHub: github.com/0sl1k
+# Author:
+   0sl1k
+   GitHub: github.com/0sl1k
