@@ -21,8 +21,8 @@
 - Oauth2
 
 ## 🛠️ Roadmap
-  Add Elastic Search
-  Add analytical A.I.
+- Add Elastic Search
+- Add analytical A.I.
 
 ## ⚙️ Getting Started
 
