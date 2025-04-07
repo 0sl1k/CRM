@@ -25,6 +25,6 @@
 - Add Elastic Search
 - Add analytical A.I.
 
-## 🙌Author:
+## 🦍Author:
   - 0sl1k
   - GitHub: github.com/0sl1k
