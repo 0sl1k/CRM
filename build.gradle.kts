@@ -27,6 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:3.4.4")
     implementation("org.springframework.security:spring-security-oauth2-client:6.4.2")
     implementation ("org.springframework.boot:spring-boot-starter-cache")
     implementation ("org.springframework.boot:spring-boot-starter-data-redis")

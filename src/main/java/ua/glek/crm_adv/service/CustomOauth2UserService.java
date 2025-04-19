@@ -7,9 +7,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import ua.glek.crm_adv.model.AuthProvider;
-import ua.glek.crm_adv.model.User;
-import ua.glek.crm_adv.repository.UserRepo;
+import ua.glek.crm_adv.model.jpa.AuthProvider;
+import ua.glek.crm_adv.model.jpa.User;
+import ua.glek.crm_adv.repository.Jpa.UserRepo;
 
 
 @Service

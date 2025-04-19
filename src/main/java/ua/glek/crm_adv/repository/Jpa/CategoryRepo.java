@@ -1,8 +1,8 @@
-package ua.glek.crm_adv.repository;
+package ua.glek.crm_adv.repository.Jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ua.glek.crm_adv.model.Category;
+import ua.glek.crm_adv.model.jpa.Category;
 @Repository
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 

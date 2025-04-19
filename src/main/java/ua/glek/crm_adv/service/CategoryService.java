@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import ua.glek.crm_adv.model.Category;
-import ua.glek.crm_adv.repository.CategoryRepo;
+import ua.glek.crm_adv.model.jpa.Category;
+import ua.glek.crm_adv.repository.Jpa.CategoryRepo;
 
 import java.util.List;
 import java.util.Optional;

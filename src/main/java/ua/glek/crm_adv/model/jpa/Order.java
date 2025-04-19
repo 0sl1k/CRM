@@ -1,6 +1,5 @@
-package ua.glek.crm_adv.model;
+package ua.glek.crm_adv.model.jpa;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

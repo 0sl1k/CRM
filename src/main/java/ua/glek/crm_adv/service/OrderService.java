@@ -5,15 +5,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.glek.crm_adv.model.*;
-import ua.glek.crm_adv.repository.OrderRepo;
-import ua.glek.crm_adv.repository.ProductRepo;
-import ua.glek.crm_adv.repository.UserRepo;
+import ua.glek.crm_adv.model.jpa.*;
+import ua.glek.crm_adv.repository.Jpa.OrderRepo;
+import ua.glek.crm_adv.repository.Jpa.ProductRepo;
+import ua.glek.crm_adv.repository.Jpa.UserRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {

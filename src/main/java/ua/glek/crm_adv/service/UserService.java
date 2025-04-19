@@ -10,11 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.glek.crm_adv.dto.ChangePasswordDto;
-import ua.glek.crm_adv.model.ERole;
-import ua.glek.crm_adv.model.Role;
-import ua.glek.crm_adv.model.User;
-import ua.glek.crm_adv.repository.RoleRepo;
-import ua.glek.crm_adv.repository.UserRepo;
+import ua.glek.crm_adv.model.jpa.Role;
+import ua.glek.crm_adv.model.jpa.User;
+import ua.glek.crm_adv.repository.Jpa.RoleRepo;
+import ua.glek.crm_adv.repository.Jpa.UserRepo;
 
 
 

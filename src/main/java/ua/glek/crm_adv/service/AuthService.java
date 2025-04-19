@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 import ua.glek.crm_adv.dto.LogInDto;
 import ua.glek.crm_adv.dto.SignUpDto;
 import ua.glek.crm_adv.jwt.JwtUtils;
-import ua.glek.crm_adv.model.ERole;
-import ua.glek.crm_adv.model.Role;
-import ua.glek.crm_adv.model.User;
-import ua.glek.crm_adv.repository.RoleRepo;
-import ua.glek.crm_adv.repository.UserRepo;
+import ua.glek.crm_adv.model.jpa.ERole;
+import ua.glek.crm_adv.model.jpa.Role;
+import ua.glek.crm_adv.model.jpa.User;
+import ua.glek.crm_adv.repository.Jpa.RoleRepo;
+import ua.glek.crm_adv.repository.Jpa.UserRepo;
 
 import java.util.HashSet;
 import java.util.List;

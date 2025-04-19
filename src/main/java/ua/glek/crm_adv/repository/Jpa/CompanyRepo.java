@@ -1,8 +1,8 @@
-package ua.glek.crm_adv.repository;
+package ua.glek.crm_adv.repository.Jpa;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.glek.crm_adv.model.Company;
+import ua.glek.crm_adv.model.jpa.Company;
 
 import java.util.List;
 

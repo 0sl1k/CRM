@@ -1,9 +1,9 @@
-package ua.glek.crm_adv.repository;
+package ua.glek.crm_adv.repository.Jpa;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.glek.crm_adv.model.ERole;
-import ua.glek.crm_adv.model.Role;
+import ua.glek.crm_adv.model.jpa.ERole;
+import ua.glek.crm_adv.model.jpa.Role;
 
 import java.util.Optional;
 

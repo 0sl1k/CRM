@@ -1,4 +1,4 @@
-package ua.glek.crm_adv.model;
+package ua.glek.crm_adv.model.jpa;
 
 public enum EStatus {
     NEW,
