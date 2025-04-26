@@ -42,15 +42,26 @@ public class UserService  implements UserDetailsService {
 
     }
 
+
+
     public User findById(Long id) {
-        return userRepo.findById(id).orElse(null);
+        return userRepo.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void assignRoleToUser(Long userid, Long roleid) {
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+    public void deleteUser(UserDetails userDetails) {
+       User user = findByUsername(userDetails.getUsername());
+       userRepo.deleteById(user.getId());
+
+    }
+
+    public void assignRoleToUser(Long userid, Long roleId) {
         User user = userRepo.findById(userid)
                 .orElseThrow(() -> new UsernameNotFoundException(userid.toString()));
 
-        Role role = roleRepo.findById(roleid)
+        Role role = roleRepo.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 
         if(user.getRoles().contains(role)) {
@@ -81,6 +92,6 @@ public class UserService  implements UserDetailsService {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User nor found with username" + username));
 
-        return UserDetailsImpl.build(user);
+        return new UserDetailsImpl(user);
     }
 }

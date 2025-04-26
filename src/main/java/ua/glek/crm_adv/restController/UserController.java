@@ -44,5 +44,18 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+    @GetMapping("/secure-endpoint")
+    public ResponseEntity<?> getSecureEndpoint(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(!userDetails.isAccountNonLocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Your account is locked to" + userDetails.getUser().getBanEndDate());
+        }
+        return ResponseEntity.ok("Your are Welcome");
+    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteAccount(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        userService.deleteUser(userDetails);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

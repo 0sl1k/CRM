@@ -17,7 +17,7 @@ public class Company implements Serializable {
     private Long id;
     private String name;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "manager_id")
     private User manager;
 

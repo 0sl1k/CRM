@@ -111,6 +111,7 @@ public class AuthService {
                 }
             });
         }
+        user.setBanned(false);
         user.setRoles(roles);
         userRepo.save(user);
         return new ResponseEntity<>("Register successful", HttpStatus.OK);

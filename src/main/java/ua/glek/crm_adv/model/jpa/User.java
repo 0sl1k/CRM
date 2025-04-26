@@ -6,12 +6,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +32,9 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    private boolean banned;
+    private LocalDateTime BanEndDate;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @UpdateTimestamp
     @Column(name = "update_at", nullable=false)
@@ -40,12 +46,22 @@ public class User implements Serializable {
     private LocalDateTime createdAt;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "manager",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<Company> companyList = new ArrayList<>();
+    @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE,orphanRemoval = true)
+    @JsonIgnore
+    private List<Product> productList = new ArrayList<>();
 
     public User(String email, String username) {
         this.email = email;
