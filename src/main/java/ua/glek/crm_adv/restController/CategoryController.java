@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ua.glek.crm_adv.model.jpa.Category;
-import ua.glek.crm_adv.service.CategoryService;
+import ua.glek.crm_adv.service.admin.CategoryService;
 
 import java.util.List;
 

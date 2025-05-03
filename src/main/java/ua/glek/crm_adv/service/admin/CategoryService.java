@@ -1,4 +1,4 @@
-package ua.glek.crm_adv.service;
+package ua.glek.crm_adv.service.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

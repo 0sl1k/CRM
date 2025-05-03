@@ -23,9 +23,17 @@ public class OrderController {
     }
 
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<String> updateOrderStatus(@PathVariable("id") Long id,
-                                               @RequestParam EStatus status) {
-       return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
+//    @PutMapping("/{id}/status")
+//    public ResponseEntity<String> updateOrderStatus(@PathVariable("id") Long id,
+//                                               @RequestParam EStatus status) {
+//       return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
+//    }
+    @GetMapping("/search/{id}")
+    public ResponseEntity<Order> searchOrder(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(orderService.findOrderById(id));
+    }
+    @DeleteMapping("/{id}/delete")
+    public void deleteOrder(@PathVariable("id") Long id) {
+         orderService.deleteOrder(id);
     }
 }

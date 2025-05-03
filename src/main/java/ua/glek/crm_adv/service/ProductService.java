@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ua.glek.crm_adv.model.elastic.ESProduct;
-import ua.glek.crm_adv.model.jpa.Category;
 import ua.glek.crm_adv.model.jpa.Product;
 import ua.glek.crm_adv.model.jpa.User;
 import ua.glek.crm_adv.repository.Jpa.ProductRepo;
 import ua.glek.crm_adv.repository.elastic.ESProductRepo;
+import ua.glek.crm_adv.service.admin.CategoryService;
 
-import java.time.Duration;
 import java.util.List;
 @Slf4j
 @Service
@@ -36,6 +35,11 @@ public class ProductService {
         return esProduct;
     }
 
+    public Product findById(Long id) {
+        return productRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Product not found"));
+    }
+
     public void save(UserDetailsImpl userDetails,Product product) {
         User author = userDetails.getUser();
         product.setAuthor(author);
@@ -56,7 +60,7 @@ public class ProductService {
     public Iterable<ESProduct> findByCategory(String categoryName) {
         return esProductRepo.findByCategoryName(categoryName);
     }
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedDelay = 60000)
     public void SyncData(){
         esProductRepo.deleteAll();
         List<Product> products = productRepo.findAll();

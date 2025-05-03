@@ -26,4 +26,13 @@ public class CompanyController {
     public ResponseEntity<List<Company>> getAll() {
         return new ResponseEntity<>(companyService.getAllCompany(),HttpStatus.OK);
     }
+
+    @PutMapping("/{companyId}/{userId}")
+    public String promoteManagerToCompany(@PathVariable Long companyId, @PathVariable Long userId) {
+        return companyService.promoteManagerToCompany(companyId,userId);
+    }
+    @PutMapping("/addProduct/{companyId}/{productId}")
+    public Company addProduct(@PathVariable Long companyId,@PathVariable Long productId) {
+        return companyService.addProduct(companyId,productId);
+    }
 }

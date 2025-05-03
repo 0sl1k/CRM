@@ -1,6 +1,7 @@
 package ua.glek.crm_adv.model.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Table(name = "users")
 public class User implements Serializable {
     @Id
@@ -31,8 +33,9 @@ public class User implements Serializable {
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean banned;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime BanEndDate;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -34,4 +34,5 @@ public class ProductController {
     public void add(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody Product product) {
         productService.save(userDetails,product);
     }
+
 }

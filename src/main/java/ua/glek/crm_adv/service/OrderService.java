@@ -41,7 +41,7 @@ public class OrderService {
         double totalOrderPrice = 0.0;
 
        for (OrderProducts items : order.getProductsList()){
-           Product product = productRepo.findById(items.getProduct().getId()).get();
+           Product product = productRepo.findById(items.getProduct().getId()).orElseThrow(() -> new RuntimeException("Product not found"));
             int quantity = items.getQuantity();
             double unitPrice = product.getPrice();
 
@@ -63,19 +63,26 @@ public class OrderService {
 
        return orderRepo.save(order);
     }
-
-
-    @Transactional
-    @CacheEvict(value = HASH_NAME,allEntries = true)
-    public String updateOrderStatus(Long orderId, EStatus status) {
-        Optional<Order> orderOptional = orderRepo.findById(orderId);
-        if (orderOptional.isPresent()) {
-            Order order = orderOptional.get();
-            order.setStatus(status);
-            orderRepo.save(order);
-            return "Order updated";
-        }else {
-            return "Order not found";
-        }
+    public Order findOrderById(long id) {
+        Optional<Order> order = orderRepo.findById(id);
+        return order.orElseThrow(()-> new RuntimeException("Order not found"));
     }
+    public void deleteOrder(long id) {
+         orderRepo.deleteById(id);
+    }
+
+
+//    @Transactional
+//    @CacheEvict(value = HASH_NAME,allEntries = true)
+//    public String updateOrderStatus(Long orderId, EStatus status) {
+//        Optional<Order> orderOptional = orderRepo.findById(orderId);
+//        if (orderOptional.isPresent()) {
+//            Order order = orderOptional.get();
+//            order.setStatus(status);
+//            orderRepo.save(order);
+//            return "Order updated";
+//        }else {
+//            return "Order not found";
+//        }
+//    }
 }

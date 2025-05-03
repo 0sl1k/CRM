@@ -6,8 +6,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.glek.crm_adv.model.jpa.Company;
+import ua.glek.crm_adv.model.jpa.Product;
 import ua.glek.crm_adv.model.jpa.User;
 import ua.glek.crm_adv.repository.Jpa.CompanyRepo;
+import ua.glek.crm_adv.repository.Jpa.ProductRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,8 @@ public class CompanyService {
     private CompanyRepo companyRepo;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProductRepo productRepo;
 
     @CacheEvict(value = HASH_NAME,key = "#company.id",allEntries = true)
     @Transactional
@@ -35,9 +39,10 @@ public class CompanyService {
     public List<Company> getAllCompany(){
         return companyRepo.findAll();
     }
+
     @CacheEvict(value = HASH_NAME,allEntries = true)
     public String promoteManagerToCompany(Long companyId, Long userId) {
-        Optional<Company> savedCompany = Optional.ofNullable(companyRepo.findById(companyId).orElse(null));
+        Optional<Company> savedCompany = Optional.ofNullable(companyRepo.findById(companyId).orElseThrow(()-> new RuntimeException("Company not found")));
         Optional<User> user = Optional.ofNullable(userService.findById(userId));
         if (savedCompany.isPresent() && user.isPresent()) {
             Company company = savedCompany.get();
@@ -49,6 +54,15 @@ public class CompanyService {
 
         }
         return "company not found";
+
+    }
+
+    public Company addProduct(Long companyId, Long productId) {
+        Company company = companyRepo.findById(companyId)
+                .orElseThrow(()-> new RuntimeException("Company not found"));
+        Product product = productRepo.findById(productId).orElseThrow(()-> new RuntimeException("Product not found"));
+        company.getProducts().add(product);
+        return companyRepo.save(company);
 
     }
 }
