@@ -1,5 +1,6 @@
 package ua.glek.crm_adv.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -60,6 +61,19 @@ public class ProductService {
     public Iterable<ESProduct> findByCategory(String categoryName) {
         return esProductRepo.findByCategoryName(categoryName);
     }
+
+    public Product updateProduct(Long id,Product product) {
+        Product updatedProduct = productRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        updatedProduct.setName(product.getName());
+        updatedProduct.setDescription(product.getDescription());
+        updatedProduct.setPrice(product.getPrice());
+        updatedProduct.setCategory(product.getCategory());
+
+        return productRepo.save(updatedProduct);
+    }
+
     @Scheduled(fixedDelay = 60000)
     public void SyncData(){
         esProductRepo.deleteAll();

@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.glek.crm_adv.model.jpa.User;
-import ua.glek.crm_adv.repository.Jpa.UserRepo;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,12 +16,13 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
     private User user;
-    private UserRepo userRepo;
 
     private Long id;
     private String username;
     private String password;
     private String email;
+    private boolean banned;
+    private LocalDateTime banEndDate;
 
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -31,12 +31,14 @@ public class UserDetailsImpl implements UserDetails {
         this.user = user;
     }
 
-    public UserDetailsImpl(Long id, String username, String password, String email, Collection<? extends GrantedAuthority> authorities) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.email = user.getEmail();
+    public UserDetailsImpl(Long id, String username, String password, String email,boolean banned,LocalDateTime banEndDate, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.authorities = authorities;
+        this.banned = banned;
+        this.banEndDate = banEndDate;
     }
 
     public UserDetailsImpl(String username, String password, String email, Collection<? extends GrantedAuthority> authorities) {
@@ -44,6 +46,7 @@ public class UserDetailsImpl implements UserDetails {
         this.password = password;
         this.email = email;
         this.authorities = authorities;
+
     }
 
     public static UserDetailsImpl build(User user) {
@@ -53,12 +56,17 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
+                user.isBanned(),
+                user.getBanEndDate(),
                 authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(user.getRoles()==null) {
+        if (authorities != null) {
+            return authorities;
+        }
+        if (user == null || user.getRoles() == null) {
             return Collections.emptyList();
         }
         return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name()))
@@ -66,21 +74,21 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getEmail (){
-        return user.getEmail();
+        return email;
     }
 
     public Long getId() {
-        return user.getId();
+        return id;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     public User getUser() {return user;}
@@ -93,10 +101,8 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
 
-        if (user.isBanned()){
-            if (user.getBanEndDate()!=null && user.getBanEndDate().isBefore(LocalDateTime.now())){
-                user.setBanned(false);
-                user.setBanEndDate(null);
+        if (banned){
+            if (banEndDate != null && banEndDate.isBefore(LocalDateTime.now())){
                 return true;
             }
             throw new LockedException("User is locked" + user.getBanEndDate());

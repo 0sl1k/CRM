@@ -22,8 +22,10 @@ public class ModeratorProductController {
     public Iterable<ESProduct> search(@PathVariable String nameContains) {
         return productService.findByNameContains(nameContains);
     }
-    @PutMapping("/redact/{id}")
-    public Product redact(@PathVariable Long id, @RequestBody Product product) {
-       return productService.findById(id);
+
+    @PutMapping("/update/{id}")
+    public void update(@PathVariable Long id, @RequestBody Product product) {
+        productService.updateProduct(id,product);
     }
+
 }

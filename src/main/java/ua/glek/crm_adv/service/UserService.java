@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.glek.crm_adv.dto.ChangePasswordDto;
-import ua.glek.crm_adv.model.jpa.Role;
+
 import ua.glek.crm_adv.model.jpa.User;
 import ua.glek.crm_adv.repository.Jpa.RoleRepo;
 import ua.glek.crm_adv.repository.Jpa.UserRepo;
@@ -64,6 +64,6 @@ public class UserService  implements UserDetailsService {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User nor found with username" + username));
 
-        return new UserDetailsImpl(user);
+        return  UserDetailsImpl.build(user);
     }
 }

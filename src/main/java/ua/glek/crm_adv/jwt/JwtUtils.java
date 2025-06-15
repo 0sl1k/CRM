@@ -39,6 +39,9 @@ public class JwtUtils {
     }
     public Cookie getCleanJwtCookie() {
         Cookie cookie = new Cookie(jwtCookie, null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
         return cookie;
     }
     public Cookie generateJwtCookie(UserDetailsImpl userDetails){
