@@ -28,7 +28,7 @@ public class AdminUserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     public void BanUser(Long id, LocalDateTime until){
-        User user = userRepo.findById(id).get();
+        User user = userRepo.findById(id).orElseThrow(()->new UsernameNotFoundException("User not found"));
 
         user.setBanned(true);
         user.setBanEndDate(until);

@@ -66,7 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("/user/**","/api/order/**","/api/product/**","/api/company/**").authenticated()
                         .requestMatchers("/autenticate").authenticated()
-                        .requestMatchers("/api/admin/**","/api/moderator/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/moderator/**").hasRole("MODERATOR")
                         .requestMatchers("/api/clickhouse/**").permitAll()
                         .anyRequest().authenticated()

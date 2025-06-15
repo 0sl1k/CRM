@@ -28,7 +28,7 @@ public class AdminProductController {
     public Iterable<ESProduct> searchByCategory(@PathVariable String categoryName) {
         return productService.findByCategory(categoryName);
     }
-    @CacheEvict("#product")
+    @CacheEvict(value = "product", allEntries = true)
     @PostMapping("/add")
     public void add(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody Product product) {
         productService.save(userDetails,product);
