@@ -29,10 +29,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:3.4.4")
     implementation("org.springframework.security:spring-security-oauth2-client:6.4.2")
+    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
+    implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
     implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
-    implementation ("org.springframework.boot:spring-boot-starter-cache")
-    implementation ("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation ("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("com.clickhouse:clickhouse-jdbc:0.4.6")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.auth0:java-jwt:4.5.0")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -41,11 +44,12 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.4.5")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+

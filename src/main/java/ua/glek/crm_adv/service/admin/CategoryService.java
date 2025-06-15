@@ -36,5 +36,10 @@ public class CategoryService {
     public Category findCategoryByName(String name) {
         return categoryRepo.findByName(name);
     }
+    public void deleteCategoryById(Long id){
+        Optional<Category> category = categoryRepo.findById(id);
+        categoryRepo.delete(category.orElseThrow(()-> new RuntimeException("Category not found")));
+
+    }
 
 }

@@ -1,4 +1,4 @@
-package ua.glek.crm_adv.restController;
+package ua.glek.crm_adv.restController.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class CategoryController {
     }
     @GetMapping("/{id}")
     public Object get(@PathVariable Long id) {
-        return categoryService.getCategoryById(id).get();
+        return categoryService.getCategoryById(id).orElseThrow(()-> new RuntimeException("Category not found"));
 
 
     }
