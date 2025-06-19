@@ -29,7 +29,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:3.4.4")
     implementation("org.springframework.security:spring-security-oauth2-client:6.4.2")
-    implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
     implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")
     implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
     implementation("org.springframework.boot:spring-boot-starter-cache")

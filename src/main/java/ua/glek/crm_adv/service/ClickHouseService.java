@@ -1,24 +1,61 @@
 package ua.glek.crm_adv.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import ua.glek.crm_adv.dto.CompanyAnalyticsDTO;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ClickHouseService {
-    private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    @Qualifier("clickHouseJdbcTemplate")
+    private JdbcTemplate clickHouseJdbcTemplate;
 
-    public ClickHouseService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void insertAnalytics(CompanyAnalyticsDTO dto){
+        String sql = """
+            INSERT INTO company_analytics (
+              company_id, num_products, avg_price, total_orders,
+              avg_order_price, completion_rate, days_since_last_order, is_successful
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+       clickHouseJdbcTemplate.update(sql,
+               dto.getCompanyId(),
+               dto.getNumProducts(),
+               dto.getAvgPrice(),
+               dto.getTotalOrders(),
+               dto.getAvgOrderPrice(),
+               dto.getCompletionRate(),
+               dto.getDaysSinceLastOrder(),
+               dto.getIsSuccessful()
+       );
+
     }
 
-    public String getVersion(){
-        return jdbcTemplate.queryForObject("SELECT version()", String.class);
+    public void insertAnalyticsBatch(List<CompanyAnalyticsDTO> list) {
+        String sql = """
+            INSERT INTO company_analytics (
+              company_id, num_products, avg_price, total_orders,
+              avg_order_price, completion_rate, days_since_last_order, is_successful
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        List<Object[]> batchArgs = list.stream().map(dto -> new Object[] {
+                dto.getCompanyId(),
+                dto.getNumProducts(),
+                dto.getAvgPrice(),
+                dto.getTotalOrders(),
+                dto.getAvgOrderPrice(),
+                dto.getCompletionRate(),
+                dto.getDaysSinceLastOrder(),
+                dto.getIsSuccessful()
+        }).toList();
+
+        clickHouseJdbcTemplate.batchUpdate(sql, batchArgs);
     }
 
-    public void InsertOrder(Long orderId,Long userId,String productName,double amount, LocalDateTime date){
-        String sql = "INSERT INTO orders VALUES(order_id,user_id,product_name,amount,date)";
-        jdbcTemplate.update(sql,orderId,userId,productName,amount,date);
-    }
+
 }

@@ -2,6 +2,7 @@ package ua.glek.crm_adv;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -11,9 +12,8 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO;
 
-@SpringBootApplication
+@SpringBootApplication()
 @EnableElasticsearchRepositories(basePackages = "ua.glek.crm_adv.repository.elastic")
-@EnableJpaRepositories(basePackages = "ua.glek.crm_adv.repository.Jpa")
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 @EnableScheduling
 public class CrmAdvApplication {

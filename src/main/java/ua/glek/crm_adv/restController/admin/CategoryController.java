@@ -3,7 +3,9 @@ package ua.glek.crm_adv.restController.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ua.glek.crm_adv.model.jpa.Category;
 import ua.glek.crm_adv.service.admin.CategoryService;
 
@@ -39,7 +41,7 @@ public class CategoryController {
     }
     @GetMapping("/{id}")
     public Object get(@PathVariable Long id) {
-        return categoryService.getCategoryById(id).orElseThrow(()-> new RuntimeException("Category not found"));
+        return categoryService.getCategoryById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
 
     }
