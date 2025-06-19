@@ -25,6 +25,12 @@
 - Add Elastic Search
 - Add analytical A.I.
 
+
+## 🔧 Application configuration
+1. Copy the config template:
+```bash
+cp src/main/resources/application-sample.properties src/main/resources/application.properties
+
 ## 🦍Author:
   - 0sl1k
   - GitHub: github.com/0sl1k
